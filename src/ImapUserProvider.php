@@ -6,17 +6,15 @@ use Ddeboer\Imap\Exception\AuthenticationFailedException;
 use Ddeboer\Imap\Server;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Support\Facades\Hash;
 
 class ImapUserProvider implements UserProvider
 {
-
     protected $model;
     private $config;
 
     public function __construct($model, $config)
     {
-        $this->model  = $model;
+        $this->model = $model;
         $this->config = $config;
     }
 
@@ -38,22 +36,21 @@ class ImapUserProvider implements UserProvider
     public function retrieveByCredentials(array $credentials)
     {
         if ($credentials !== null) {
-            return $this->model::whereEmail($credentials["email"])->first();
+            return $this->model::whereEmail($credentials['email'])->first();
         }
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        $server = new Server($this->config["server"], $this->config["port"], $this->config["parameters"]);
+        $server = new Server($this->config['server'], $this->config['port'], $this->config['parameters']);
 
         try {
-            $email      = $credentials['email'];
-            $connection = $server->authenticate($email, $credentials["password"]);
+            $email = $credentials['email'];
+            $connection = $server->authenticate($email, $credentials['password']);
         } catch (AuthenticationFailedException $e) {
             return false;
         }
 
         return true;
     }
-
 }

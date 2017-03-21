@@ -3,11 +3,9 @@
 namespace LaravelEnso\ImapAuth;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\ImapAuth\ImapUserProvider;
 
 class ImapAuthServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      *
@@ -16,11 +14,10 @@ class ImapAuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->app['auth']->provider('imap', function ($app) {
-
-            $guard    = $app['config']['auth']['defaults']['guard'];
+            $guard = $app['config']['auth']['defaults']['guard'];
             $provider = $app['config']['auth']['guards'][$guard]['provider'];
-            $model    = $app['config']['auth']['providers'][$provider]['model'];
-            $imap     = $app["config"]['imap'];
+            $model = $app['config']['auth']['providers'][$provider]['model'];
+            $imap = $app['config']['imap'];
 
             return new ImapUserProvider(new $model(), $imap);
         });
@@ -37,14 +34,13 @@ class ImapAuthServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
     }
 
     protected function registerAuthEvents()
     {
         $app = $this->app;
 
-        /**
+        /*
          * If the authentication service has been used, we'll check for any cookies
          * that may be queued by the service. These cookies are all queued until
          * they are attached onto Response objects at the end of the requests.
