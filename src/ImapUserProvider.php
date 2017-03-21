@@ -1,62 +1,58 @@
-<?php 
+<?php
 
-namespace peckrob\Laravel5ImapAuthentication;
+namespace LaravelEnso\ImapAuth;
 
-use Illuminate\Auth\GenericUser;
-use Ddeboer\Imap\Server;
 use Ddeboer\Imap\Exception\AuthenticationFailedException;
-use Illuminate\Contracts\Auth\UserProvider;
+use Ddeboer\Imap\Server;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Support\Facades\Hash;
 
-class ImapUserProvider implements UserProvider {
+class ImapUserProvider implements UserProvider
+{
 
     protected $model;
     private $config;
 
     public function __construct($model, $config)
     {
-        $this->model = $model;
+        $this->model  = $model;
         $this->config = $config;
     }
 
-    public function retrieveById($identifier)
+    public function retrieveById($id)
     {
-        return new $this->model([
-            "id" => $identifier,
-            "email" => $identifier
-        ]);
+        return $this->model::find($id);
     }
 
     public function retrieveByToken($user, $token)
     {
-
+        //
     }
 
     public function updateRememberToken(Authenticatable $user, $token)
     {
-
+        //
     }
 
     public function retrieveByCredentials(array $credentials)
-    {       
+    {
         if ($credentials !== null) {
-            return new $this->model([
-                "id" => $credentials["email"],
-                "email" => $credentials["email"]
-            ]);
+            return $this->model::whereEmail($credentials["email"])->first();
         }
     }
 
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        $server = new Server($this->config["server"]);
+        $server = new Server($this->config["server"], $this->config["port"], $this->config["parameters"]);
 
         try {
-            $connection = $server->authenticate($credentials["email"], $credentials["password"]);
+            $email      = $credentials['email'];
+            $connection = $server->authenticate($email, $credentials["password"]);
         } catch (AuthenticationFailedException $e) {
             return false;
         }
-        
+
         return true;
     }
 

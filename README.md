@@ -1,6 +1,8 @@
 # laravel5-imap-authentication
 An authentication provider for Laravel 5 that allows you to authenticate via IMAP.
 
+Heavily inspired by peckrob's package.
+
 ## Installation
 
 Add the following line to the `require` section of your `composer.json`:
@@ -37,10 +39,12 @@ In your `app/config/auth.php`, set the authentication driver to `imap`.
 
 ### Configuration
 
-By default it will attempt to connect to localhost. If you want something different, add `IMAP_AUTH_SERVER` to the **.env** file:
+By default it will attempt to connect to localhost. If you want something different, add `IMAP_AUTH_SERVER`, `IMAP_AUTH_PORT`, `IMAP_PARAMETERS` to the **.env** file:
 
 ```
-IMAP_AUTH_SERVER=mail.example.com
+IMAP_AUTH_SERVER
+IMAP_PORT
+IMAP_PARAMETERS
 ```
 
 ## Contribute

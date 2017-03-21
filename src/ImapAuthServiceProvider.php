@@ -1,11 +1,13 @@
 <?php
 
-namespace peckrob\Laravel5ImapAuthentication;
+namespace LaravelEnso\ImapAuth;
 
 use Illuminate\Support\ServiceProvider;
+use LaravelEnso\ImapAuth\ImapUserProvider;
 
 class ImapAuthServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap the application services.
      *
@@ -13,12 +15,19 @@ class ImapAuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['auth']->extend('imap', function ($app)
-        {   
-           $model = $app['config']['auth.model'];
+        $this->app['auth']->provider('imap', function ($app) {
 
-           return new ImapUserProvider(new $model, $app["config"]['imap']);
+            $guard    = $app['config']['auth']['defaults']['guard'];
+            $provider = $app['config']['auth']['guards'][$guard]['provider'];
+            $model    = $app['config']['auth']['providers'][$provider]['model'];
+            $imap     = $app["config"]['imap'];
+
+            return new ImapUserProvider(new $model(), $imap);
         });
+
+        $this->publishes([
+            __DIR__.'/../config/imap.php' => config_path('imap.php'),
+        ], 'imap-config');
     }
 
     /**
@@ -34,10 +43,13 @@ class ImapAuthServiceProvider extends ServiceProvider
     protected function registerAuthEvents()
     {
         $app = $this->app;
+
+        /**
+         * If the authentication service has been used, we'll check for any cookies
+         * that may be queued by the service. These cookies are all queued until
+         * they are attached onto Response objects at the end of the requests.
+         */
         $app->after(function ($request, $response) use ($app) {
-            // If the authentication service has been used, we'll check for any cookies
-            // that may be queued by the service. These cookies are all queued until
-            // they are attached onto Response objects at the end of the requests.
             if (isset($app['auth.loaded'])) {
                 foreach ($app['auth']->getDrivers() as $driver) {
                     foreach ($driver->getQueuedCookies() as $cookie) {
