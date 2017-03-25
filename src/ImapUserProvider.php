@@ -46,7 +46,7 @@ class ImapUserProvider implements UserProvider
 
         try {
             $email = $credentials['email'];
-            $connection = $server->authenticate($email, $credentials['password']);
+            $server->authenticate($email, $credentials['password']);
         } catch (AuthenticationFailedException $e) {
             return false;
         }
