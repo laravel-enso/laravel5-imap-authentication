@@ -1,5 +1,8 @@
 # laravel5-imap-authentication
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/dd67b18d6b9044169f4cd540cca61fba)](https://www.codacy.com/app/laravel-enso/laravel5-imap-authentication?utm_source=github.com&utm_medium=referral&utm_content=laravel-enso/laravel5-imap-authentication&utm_campaign=badger)
+[![StyleCI](https://styleci.io/repos/85708982/shield?branch=master)](https://styleci.io/repos/85708982)
+[![Total Downloads](https://poser.pugx.org/laravel-enso/imapauth/downloads)](https://packagist.org/packages/laravel-enso/imapauth)
+[![Latest Stable Version](https://poser.pugx.org/laravel-enso/imapauth/version)](https://packagist.org/packages/laravel-enso/imapauth)
 
 An authentication provider for Laravel 5 that allows you to authenticate via IMAP.
 
