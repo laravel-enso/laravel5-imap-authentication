@@ -8,13 +8,24 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Mishu",
-            "email": "mishu@xtelecom.ro"
+            "name": "Adrian Ocneanu",
+            "email": "aocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "peckrob\\Laravel5ImapAuthentication\\": "src/"
+            "LaravelEnso\\ImapAuth\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEnso\\ImapAuth\\ImapAuthServiceProvider",
+                "LaravelEnso\\ImapAuth\\ImapUserServiceProvider"
+            ],
+            "aliases": {}
         }
     }
 }
