@@ -4,13 +4,8 @@ namespace LaravelEnso\ImapAuth;
 
 use Illuminate\Support\ServiceProvider;
 
-class ImapAuthServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->app['auth']->provider('imap', function ($app) {
@@ -23,15 +18,13 @@ class ImapAuthServiceProvider extends ServiceProvider
         });
 
         $this->publishes([
-            __DIR__.'/../config/imap.php' => config_path('imap.php'),
+            __DIR__.'/../config/imap.php' => config_path('enso'),
         ], 'imap-config');
+
+        $this->mergeConfigFrom(__DIR__.'/config/imap.php', 'enso.imap');
+
     }
 
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
     public function register()
     {
     }

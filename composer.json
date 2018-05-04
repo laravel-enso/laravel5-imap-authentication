@@ -22,7 +22,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelEnso\\ImapAuth\\ImapAuthServiceProvider"
+                "LaravelEnso\\ImapAuth\\AppServiceProvider"
             ],
             "aliases": {}
         }
