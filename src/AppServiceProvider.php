@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->publishes([
-            __DIR__.'/../config/imap.php' => config_path('enso'),
+            __DIR__.'/config/imap.php' => config_path('enso'),
         ], 'imap-config');
 
         $this->mergeConfigFrom(__DIR__.'/config/imap.php', 'enso.imap');
