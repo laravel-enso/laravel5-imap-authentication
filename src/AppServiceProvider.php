@@ -2,17 +2,17 @@
 
 namespace LaravelEnso\ImapAuth;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->app['auth']->provider('imap', function ($app) {
-            $guard = $app['config']['auth']['defaults']['guard'];
-            $provider = $app['config']['auth']['guards'][$guard]['provider'];
-            $model = $app['config']['auth']['providers'][$provider]['model'];
-            $imap = $app['config']['imap'];
+        \Auth::provider('imap', function ($app, array $config) {
+            $guard = config('auth.defaults.guard');
+            $provider = config('auth.guards.'.$guard.'.provider');
+            $model = config('auth.providers.'.$provider.'.model');
+            $imap = config('enso.imap');
 
             return new ImapUserProvider(new $model(), $imap);
         });
